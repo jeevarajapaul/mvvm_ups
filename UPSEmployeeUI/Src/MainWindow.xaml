@@ -1,0 +1,39 @@
+﻿<NavigationWindow x:Class="UPSAssessment.UPSEmployeeUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" ShowsNavigationUI="False" WindowState="Maximized" WindowStartupLocation="CenterScreen"
+        Title="Employee Information System" Height="450" Width="800" Closing="NavigationWindow_Closing">
+
+    <NavigationWindow.Content>
+
+        <Grid Name="GriUPSAssessment">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Ribbon Margin="0" Visibility="Visible" x:Name="RibbonUPSEmployeeUI" SelectedIndex="0">
+                <Ribbon.QuickAccessToolBar>
+                    <RibbonQuickAccessToolBar Visibility="Hidden">
+                    </RibbonQuickAccessToolBar>
+                </Ribbon.QuickAccessToolBar>
+                <Ribbon.ApplicationMenu>
+                    <RibbonApplicationMenu Visibility="Hidden" />
+                </Ribbon.ApplicationMenu>
+                <RibbonTab Header="Employee Information System" KeyTip="H">
+                    <RibbonGroup x:Name="RibbonGroupUPSEmployeeUI" HorizontalAlignment="Center" Header="Employee Manipulation">
+                        <RibbonButton Name="RibbonButtonAddEmployee"  Label="Add Employee" LargeImageSource="..\Images\add_employee.png" Click="RibbonButtonAddEmployee_Click"></RibbonButton>
+                        <RibbonButton Name="RibbonButtonEditEmployee" Label="Edit Employee" LargeImageSource="..\Images\edit_employee.png" Click="RibbonButtonEditEmployee_Click"></RibbonButton>
+                    </RibbonGroup>
+                    <RibbonGroup HorizontalAlignment="Center" Header="Employee Retrieval">
+                        <RibbonButton Name="RibbonButtonGetEmployeeById" Click="RibbonButtonGetEmployeeById_Click"  Label="Get Employee by Id" LargeImageSource="..\Images\view_by_emp_id.png"></RibbonButton>
+                        <RibbonButton Name="RibbonButtonGetEmployeeByName" Click="RibbonButtonGetEmployeeByName_Click"  Label="Get Employee by Name" LargeImageSource="..\Images\view_by_emp_name.png"></RibbonButton>
+                        <RibbonButton Name="RibbonButtonGetAllEmployees"  Label="List all Employees" LargeImageSource="..\Images\retrieve_employee_info.png" Click="RibbonButtonGetAllEmployees_Click"></RibbonButton>
+                    </RibbonGroup>
+                </RibbonTab>
+            </Ribbon>
+        </Grid>
+    </NavigationWindow.Content>
+</NavigationWindow>

@@ -1,0 +1,52 @@
+﻿<Page x:Class="UPSAssessment.UPSEmployeeUI.QueryEmployeePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d" xmlns:local="clr-namespace:UPSEmployeeLib.ViewModel;assembly=UPSEmployeeLib"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Querying Employee Information" Name="PageQueryEmployee" Margin="0">
+    <Page.Resources>
+        <DataTemplate DataType="{x:Type local:EmployeeViewModelUpdate}" />
+    </Page.Resources>
+    <Border BorderThickness="2" BorderBrush="Black" x:Name="BorderCustomFieldsUpdater" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3" Padding="1">
+        <Border.Resources>
+        </Border.Resources>
+        <Grid Margin="3" Name="GridQueryEmployeePage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style x:Key="CommonSelectionAndHighlightStyle" TargetType="FrameworkElement">
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Blue" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="DarkGray" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="Black" />
+                    </Style.Resources>
+                </Style>
+                <Style x:Key="TextBlockStyleCustomField" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource CommonSelectionAndHighlightStyle}">
+                </Style>
+                <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockStyleCustomField }">
+                    <Setter Property="Margin" Value="3 0 3 0" />
+                </Style>
+                <Style x:Key="TextBlockBoldStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockStyle}">
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+            </Grid.Resources>
+            <Label x:Name="LabelSearchItem" Content="Page Number:" Grid.Row="0" Grid.Column="0" Foreground="Black" Background="White" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="100" FontSize="14" />
+            <Button Name="ButtonNextPage" Content="Next Page" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120" Height="30" Click="ButtonNextPage_Click" Margin="5,0,0,0" FontSize="14" IsEnabled="False" ></Button>
+            <Button Name="ButtonPreviousPage" Content="Previous Page" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120" Height="30" Click="ButtonPreviousPage_Click" Margin="0,0,130,0" FontSize="14" IsEnabled="False"></Button>
+            <Button Name="ButtonSearch" Click="ButtonSearch_Click" Content="Search" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120" Height="30"  Margin="0,0,5,0" FontSize="14" ></Button>
+            <DataGrid Name="DataGridEmployees" HorizontalAlignment="Stretch" Height="Auto" Margin="5" Grid.Row="1" VerticalAlignment="Stretch" Width="Auto" Grid.Column="0" FontSize="14" AutoGenerateColumns="True" SelectionMode="Single" IsReadOnly="True" />
+            <Button Name="ButtonGoBack" Content="Back" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="120" Height="30" Click="ButtonGoBack_Click" Margin="5,4.6,0,5.4" FontSize="14" ></Button>
+            <TextBox TabIndex="0" Name="TextBoxSearchEmployee" VerticalContentAlignment="Center" Grid.Row="0" Margin="110,5,0,0" HorizontalAlignment="Left" Height="29" Text="" VerticalAlignment="Top" Width="75" FontSize="14" RenderTransformOrigin="0.673,0.572" />
+            <Label Name="LabelPageInfo" Content="Ready" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Height="30" Margin="140,4.6,260,0" Grid.Row="2" VerticalAlignment="Top" Width="Auto" FontWeight="Bold" />
+        </Grid>
+    </Border>
+</Page>
