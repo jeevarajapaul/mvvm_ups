@@ -24,7 +24,7 @@ namespace UPSAssessment.UPSEmployeeUI
 
             var appender = (log4net.Appender.FileAppender)LogManager.GetRepository().GetAppenders()[0];
 
-            string logPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "Logs");
+            string logPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), @"..\Logs");
             if (!Directory.Exists(logPath))
             {
                 Directory.CreateDirectory(logPath);

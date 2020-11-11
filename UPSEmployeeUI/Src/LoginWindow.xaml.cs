@@ -25,10 +25,14 @@ namespace UPSAssessment.UPSEmployeeUI
         {
             string loginUrl = TextBoxUrl.Text.Trim();
             string loginApiKey = TextBoxApiKey.Password.Trim();
+            if (string.IsNullOrEmpty(loginUrl) || string.IsNullOrEmpty(loginApiKey))
+            {
+                MessageBox.Show("Please enter the login credentials.", Title, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
             IsConnected = Login(loginUrl, loginApiKey);
             if (!IsConnected)
             {
-                MessageBox.Show($"Failed to login. Please check the credentials.", Title, MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Failed to login. Please check the credentials.", Title, MessageBoxButton.OK, MessageBoxImage.Information);
                 TextBoxUrl.Focus();
             }
             else

@@ -101,7 +101,7 @@ namespace UPSEmployeeLib.General
                 HttpResponseMessage httpResponseMsg = httpResponseTask.Result;
                 //httpResponseMsg.EnsureSuccessStatusCode();
 
-                if (httpResponse.IsSuccessStatusCode)
+                if (httpResponse.IsSuccessStatusCode && httpResponse.StatusCode == HttpStatusCode.OK)
                 {
                     string retrievedPayLoad = await httpResponse.Content.ReadAsStringAsync();
                     JObject responseObject = JObject.Parse(retrievedPayLoad);
@@ -117,9 +117,8 @@ namespace UPSEmployeeLib.General
                         else
                         {
                             _retrievedEmployees = responseObject["data"].ToObject<List<Employee>>();
-                            _webApiClientLogger.Info("Employee(s) is/are retrieved for the given employee name.");
+                            _webApiClientLogger.Info($"{_retrievedEmployees.Count} Employee(s) is/are retrieved for the given employee name.");
                         }
-                        //string metaContent = (string)responseObject["meta"];
                         if (responseObject["meta"].HasValues && responseObject["meta"]["pagination"].HasValues
                             && responseObject["meta"]["pagination"]["pages"] != null)
                         {
@@ -205,6 +204,18 @@ namespace UPSEmployeeLib.General
                     if (responseObject["code"].ToString().Equals("200") && httpResponseMsg.StatusCode == HttpStatusCode.OK)
                     {
                         isEditSuccessfull = true;
+                    }
+                    else
+                    {
+                        JToken dataContentToken = responseObject["data"];
+                        if (dataContentToken.GetType().Name.Equals("JObject"))
+                        {
+                            if (responseObject["data"]["message"] != null)
+                            {
+                                string errMsg = (string)responseObject["data"]["message"];
+                                _webApiClientLogger.Error($"Failed to modify the employee details. Error: {errMsg}");
+                            }
+                        }
                     }
                 }
             }

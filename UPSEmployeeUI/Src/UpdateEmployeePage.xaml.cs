@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -85,36 +86,44 @@ namespace UPSAssessment.UPSEmployeeUI
             NavigationService.GoBack();
         }
 
-        private void ButtonEdit_Click(object sender, RoutedEventArgs e)
+        private void ButtonFind_Click(object sender, RoutedEventArgs e)
         {
             string empId = TextBoxEmployeeId.Text.Trim();
-            int.TryParse(empId, out int employeeId);
-            if (employeeId == 0)
+            try
             {
-                MessageBox.Show("Please enter valid Employee Id.", Title, MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
-            {
-                Task employeesLoadingTask = Task.Run(() => _employeeViewModelQuery.GetEmployeesAsync(empId));
-                Mouse.OverrideCursor = Cursors.Wait;
-                //wait till the retrieval process completes
-                employeesLoadingTask.Wait();
-                Mouse.OverrideCursor = null;
-                if (_employeeViewModelQuery.RetrievedEmployees.Count > 1)
+                int.TryParse(empId, out int employeeId);
+                if (employeeId == 0)
                 {
-                    MessageBox.Show("More than one employee exist for the given filter.", Title, MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else if (_employeeViewModelQuery.RetrievedEmployees.Count == 0)
-                {
-                    MessageBox.Show("No employee is found for the given Id.", Title, MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Please enter valid Employee Id.", Title, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
-                    _employeeViewModelUpdate.EmployeeId = _employeeViewModelQuery.RetrievedEmployees[0].Id;
-                    _employeeViewModelUpdate.EmployeeName = _employeeViewModelQuery.RetrievedEmployees[0].Name;
-                    _employeeViewModelUpdate.EmployeeEmail = _employeeViewModelQuery.RetrievedEmployees[0].Email;
-                    _employeeViewModelUpdate.EmployeeGender = _employeeViewModelQuery.RetrievedEmployees[0].Gender;
+                    Task employeesLoadingTask = Task.Run(() => _employeeViewModelQuery.GetEmployeesAsync(empId));
+                    Mouse.OverrideCursor = Cursors.Wait;
+                    //wait till the retrieval process completes
+                    employeesLoadingTask.Wait();
+                    Mouse.OverrideCursor = null;
+                    if (_employeeViewModelQuery.RetrievedEmployees.Count > 1)
+                    {
+                        MessageBox.Show("More than one employee exist for the given filter.", Title, MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else if (_employeeViewModelQuery.RetrievedEmployees.Count == 0)
+                    {
+                        MessageBox.Show("No employee is found for the given Id.", Title, MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        _employeeViewModelUpdate.EmployeeId = _employeeViewModelQuery.RetrievedEmployees[0].Id;
+                        _employeeViewModelUpdate.EmployeeName = _employeeViewModelQuery.RetrievedEmployees[0].Name;
+                        _employeeViewModelUpdate.EmployeeEmail = _employeeViewModelQuery.RetrievedEmployees[0].Email;
+                        _employeeViewModelUpdate.EmployeeGender = _employeeViewModelQuery.RetrievedEmployees[0].Gender;
+                    }
                 }
+            }
+            catch (Exception ec)
+            {
+                MessageBox.Show("Error while updating the employee details." + Environment.NewLine +
+                    $"Error: {ec.Message}", Title, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

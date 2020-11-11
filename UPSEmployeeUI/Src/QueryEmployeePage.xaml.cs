@@ -96,59 +96,66 @@ namespace UPSAssessment.UPSEmployeeUI
         {
             bool showWorkitems = true;
             string txtToDisplayInLabel = "Retrieving the selected employees' information ...";
-
-            if (DataGridEmployees.HasItems && _searchFilter == SearchFilter.NoFilter)
+            try
             {
-                MessageBoxResult messageBoxResult = MessageBox.Show
-                        ("Loading employees takes a while." + Environment.NewLine +
-                        "Do you still want to clear the currently loaded data and preceed with the search?"
-                        , Title, MessageBoxButton.YesNo);
-                showWorkitems = (messageBoxResult == MessageBoxResult.Yes);
-            }
-
-            if (showWorkitems)
-            {
-                LabelPageInfo.Content = txtToDisplayInLabel;
-                Task employeesLoadingTask;
-
-                if (_searchFilter == SearchFilter.ByPageNumber)
+                if (DataGridEmployees.HasItems && _searchFilter == SearchFilter.NoFilter)
                 {
-                    txtToDisplayInLabel = $"Retrieving the employees' information in page {_pageNoToRetrieve} of {_employeeViewModelQuery.TotalNoOfPages} ...";
-                    employeesLoadingTask = Task.Run(() => _employeeViewModelQuery.GetEmployeesAsync(_pageNoToRetrieve.ToString()));
+                    MessageBoxResult messageBoxResult = MessageBox.Show
+                            ("Loading employees takes a while." + Environment.NewLine +
+                            "Do you still want to clear the currently loaded data and preceed with the search?"
+                            , Title, MessageBoxButton.YesNo);
+                    showWorkitems = (messageBoxResult == MessageBoxResult.Yes);
                 }
-                else
-                {
-                    employeesLoadingTask = Task.Run(() => _employeeViewModelQuery.GetEmployeesAsync(filterToApply));
-                }
-                ButtonGoBack.IsEnabled = false;
-                Mouse.OverrideCursor = Cursors.Wait;
-                //wait till the retrieval process completes
-                employeesLoadingTask.Wait();
 
-                ButtonGoBack.IsEnabled = true;
-                Mouse.OverrideCursor = null;
-                DataGridEmployees.ItemsSource = _employeeViewModelQuery.RetrievedEmployees;
-                if (DataGridEmployees.HasItems)
+                if (showWorkitems)
                 {
-                    DataGridEmployees.Columns.LastOrDefault().Width = new DataGridLength(1, DataGridLengthUnitType.Star);
+                    LabelPageInfo.Content = txtToDisplayInLabel;
+                    Task employeesLoadingTask;
+
                     if (_searchFilter == SearchFilter.ByPageNumber)
                     {
-                        ButtonNextPage.IsEnabled = _employeeViewModelQuery.TotalNoOfPages > _pageNoToRetrieve;
-                        ButtonPreviousPage.IsEnabled = _pageNoToRetrieve > 1;
-                        LabelPageInfo.Content = $"Employees in page {_pageNoToRetrieve} of {_employeeViewModelQuery.TotalNoOfPages}";
+                        txtToDisplayInLabel = $"Retrieving the employees' information in page {_pageNoToRetrieve} of {_employeeViewModelQuery.TotalNoOfPages} ...";
+                        employeesLoadingTask = Task.Run(() => _employeeViewModelQuery.GetEmployeesAsync(_pageNoToRetrieve.ToString()));
                     }
                     else
                     {
-                        LabelPageInfo.Content = $"{ _employeeViewModelQuery.RetrievedEmployees.Count} employee(s) is/are found.";
+                        employeesLoadingTask = Task.Run(() => _employeeViewModelQuery.GetEmployeesAsync(filterToApply));
                     }
+                    ButtonGoBack.IsEnabled = false;
+                    Mouse.OverrideCursor = Cursors.Wait;
+                    //wait till the retrieval process completes
+                    employeesLoadingTask.Wait();
+
+                    ButtonGoBack.IsEnabled = true;
+                    Mouse.OverrideCursor = null;
+                    DataGridEmployees.ItemsSource = _employeeViewModelQuery.RetrievedEmployees;
+                    if (DataGridEmployees.HasItems)
+                    {
+                        DataGridEmployees.Columns.LastOrDefault().Width = new DataGridLength(1, DataGridLengthUnitType.Star);
+                        if (_searchFilter == SearchFilter.ByPageNumber)
+                        {
+                            ButtonNextPage.IsEnabled = _employeeViewModelQuery.TotalNoOfPages > _pageNoToRetrieve;
+                            ButtonPreviousPage.IsEnabled = _pageNoToRetrieve > 1;
+                            LabelPageInfo.Content = $"Employees in page {_pageNoToRetrieve} of {_employeeViewModelQuery.TotalNoOfPages}";
+                        }
+                        else
+                        {
+                            LabelPageInfo.Content = $"{ _employeeViewModelQuery.RetrievedEmployees.Count} employee(s) is/are found.";
+                        }
+                    }
+                    else
+                    {
+                        LabelPageInfo.Content = "No employee(s) is/are found for the given search critera.";
+                    }
+                    //Save the workitems (or serialize) into the XML
+                    //_outputFileName = Path.Combine(GeneralUtils.OutPath, $"QueryEmployeeInfo.xml");
+                    ExportToExcel();
                 }
-                else
-                {
-                    LabelPageInfo.Content = "No employee(s) is/are found for the given search critera.";
-                }
-                //Save the workitems (or serialize) into the XML
-                //_outputFileName = Path.Combine(GeneralUtils.OutPath, $"QueryEmployeeInfo.xml");
-                ExportToExcel();
+            }
+            catch (Exception ec)
+            {
+                MessageBox.Show("Error while querying the employee details." + Environment.NewLine +
+                    $"Error: {ec.Message}", Title, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -323,6 +323,7 @@ namespace UPSEmployeeLib.ViewModel
         /// <returns></returns>
         public bool UpdateEmployee()
         {
+            Mouse.OverrideCursor = Cursors.Wait;
             bool isEmployeeUpdated = false;
             string msgToShow = string.Empty;
             try
@@ -363,7 +364,7 @@ namespace UPSEmployeeLib.ViewModel
                 _messageToUserEventArgs.MessageToShow = ec.Message;
                 ShowMessageToUserEvent?.Invoke(this, _messageToUserEventArgs);
             }
-
+            Mouse.OverrideCursor = null;
             return isEmployeeUpdated;
         }
 

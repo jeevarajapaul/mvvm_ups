@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d" xmlns:local="clr-namespace:UPSEmployeeLib.ViewModel;assembly=UPSEmployeeLib"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Querying Employee Information" Name="PageQueryEmployee" Margin="0">
+      Title="Search and View Employee Details" Name="PageQueryEmployee" Margin="0">
     <Page.Resources>
         <DataTemplate DataType="{x:Type local:EmployeeViewModelUpdate}" />
     </Page.Resources>
@@ -43,7 +43,15 @@
             <Button Name="ButtonNextPage" Content="Next Page" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120" Height="30" Click="ButtonNextPage_Click" Margin="5,0,0,0" FontSize="14" IsEnabled="False" ></Button>
             <Button Name="ButtonPreviousPage" Content="Previous Page" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120" Height="30" Click="ButtonPreviousPage_Click" Margin="0,0,130,0" FontSize="14" IsEnabled="False"></Button>
             <Button Name="ButtonSearch" Click="ButtonSearch_Click" Content="Search" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120" Height="30"  Margin="0,0,5,0" FontSize="14" ></Button>
-            <DataGrid Name="DataGridEmployees" HorizontalAlignment="Stretch" Height="Auto" Margin="5" Grid.Row="1" VerticalAlignment="Stretch" Width="Auto" Grid.Column="0" FontSize="14" AutoGenerateColumns="True" SelectionMode="Single" IsReadOnly="True" />
+            <DataGrid Name="DataGridEmployees" HorizontalAlignment="Stretch" Height="Auto" Margin="5" Grid.Row="1" VerticalAlignment="Stretch" Width="Auto" Grid.Column="0" FontSize="14" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Mail Id" Binding="{Binding Email}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
             <Button Name="ButtonGoBack" Content="Back" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="120" Height="30" Click="ButtonGoBack_Click" Margin="5,4.6,0,5.4" FontSize="14" ></Button>
             <TextBox TabIndex="0" Name="TextBoxSearchEmployee" VerticalContentAlignment="Center" Grid.Row="0" Margin="110,5,0,0" HorizontalAlignment="Left" Height="29" Text="" VerticalAlignment="Top" Width="75" FontSize="14" RenderTransformOrigin="0.673,0.572" />
             <Label Name="LabelPageInfo" Content="Ready" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Height="30" Margin="140,4.6,260,0" Grid.Row="2" VerticalAlignment="Top" Width="Auto" FontWeight="Bold" />

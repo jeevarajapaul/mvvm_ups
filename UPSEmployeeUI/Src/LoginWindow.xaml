@@ -11,9 +11,9 @@
             <Border Name="BorderLogin" Width="{Binding ElementName=CanvasLogin, Path=ActualWidth}" Height="155" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             </Border>
 
-            <TextBox x:Name="TextBoxUrl" HorizontalAlignment="Left" Height="29" TextWrapping="Wrap" VerticalAlignment="Top" Width="302" Canvas.Left="98" Canvas.Top="16" FontSize="16" />
-            <PasswordBox x:Name="TextBoxApiKey" HorizontalAlignment="Left" VerticalAlignment="Top" Width="302" Height="29" Canvas.Left="98" Canvas.Top="63" FontSize="16" />
-            <Button Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" RenderTransformOrigin="-0.107,1.5" Height="35" Click="ButtonLogin_Click" Name="ButtonLogin" Canvas.Left="300" Canvas.Top="109" FontSize="14" IsDefault="True" />
+            <TextBox TabIndex="0" x:Name="TextBoxUrl" HorizontalAlignment="Left" Height="29" TextWrapping="Wrap" VerticalAlignment="Top" Width="302" Canvas.Left="98" Canvas.Top="16" FontSize="16" />
+            <PasswordBox TabIndex="1" x:Name="TextBoxApiKey" HorizontalAlignment="Left" VerticalAlignment="Top" Width="302" Height="29" Canvas.Left="98" Canvas.Top="63" FontSize="16" />
+            <Button TabIndex="2" IsDefault="True" Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" RenderTransformOrigin="-0.107,1.5" Height="35" Click="ButtonLogin_Click" Name="ButtonLogin" Canvas.Left="300" Canvas.Top="109" FontSize="14" />
             <Label x:Name="LabelLoginUserName" Content="Login :" HorizontalAlignment="Left" VerticalAlignment="Top" Height="29"  Foreground="Black" Background="White" Canvas.Left="11" Canvas.Top="16" FontSize="14" />
             <Label x:Name="LabelLoginPassword" Content="Password :" HorizontalAlignment="Left" VerticalAlignment="Top" Height="29"  Foreground="Black" Background="White" Canvas.Left="11" Canvas.Top="63" FontSize="14" />
         </Canvas>
