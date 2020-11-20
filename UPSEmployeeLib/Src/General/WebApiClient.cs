@@ -50,7 +50,7 @@ namespace UPSEmployeeLib.General
             {
                 //serilize the object to Json
                 string paysLoadForPost = JsonConvert.SerializeObject(employeeToBeAdded);
-                HttpContent httpContent = new StringContent(paysLoadForPost, UTF8Encoding.UTF8, _contentType);
+                HttpContent httpContent = new StringContent(paysLoadForPost, Encoding.UTF8, _contentType);
                 Task<HttpResponseMessage> httpResponse = Task.Run(() => _httpClient.PostAsync(_connectionAgent.ConnectionInfo, httpContent));
                 httpResponse.Wait();
                 HttpResponseMessage httpResponseMsg = httpResponse.Result;
@@ -95,11 +95,6 @@ namespace UPSEmployeeLib.General
             {
                 string requestUri = string.Concat(_connectionAgent.ConnectionInfo, filterToApply);
                 HttpResponseMessage httpResponse = await _httpClient.GetAsync(requestUri);
-
-                Task<HttpResponseMessage> httpResponseTask = Task.Run(() => _httpClient.GetAsync(_connectionAgent.ConnectionInfo));
-                await httpResponseTask;
-                HttpResponseMessage httpResponseMsg = httpResponseTask.Result;
-                //httpResponseMsg.EnsureSuccessStatusCode();
 
                 if (httpResponse.IsSuccessStatusCode && httpResponse.StatusCode == HttpStatusCode.OK)
                 {
