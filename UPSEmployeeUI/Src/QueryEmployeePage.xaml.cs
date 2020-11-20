@@ -94,7 +94,7 @@ namespace UPSAssessment.UPSEmployeeUI
 
         private void RetrieveAndShowEmployees(string filterToApply = "")
         {
-            bool showWorkitems = true;
+            bool showEmployees = true;
             string txtToDisplayInLabel = "Retrieving the selected employees' information ...";
             try
             {
@@ -104,10 +104,10 @@ namespace UPSAssessment.UPSEmployeeUI
                             ("Loading employees takes a while." + Environment.NewLine +
                             "Do you still want to clear the currently loaded data and preceed with the search?"
                             , Title, MessageBoxButton.YesNo);
-                    showWorkitems = (messageBoxResult == MessageBoxResult.Yes);
+                    showEmployees = (messageBoxResult == MessageBoxResult.Yes);
                 }
 
-                if (showWorkitems)
+                if (showEmployees)
                 {
                     LabelPageInfo.Content = txtToDisplayInLabel;
                     Task employeesLoadingTask;
@@ -147,7 +147,7 @@ namespace UPSAssessment.UPSEmployeeUI
                     {
                         LabelPageInfo.Content = "No employee(s) is/are found for the given search critera.";
                     }
-                    //Save the workitems (or serialize) into the XML
+                    //Save the employee records (or serialize) into the XML
                     //_outputFileName = Path.Combine(GeneralUtils.OutPath, $"QueryEmployeeInfo.xml");
                     ExportToExcel();
                 }
